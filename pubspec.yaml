@@ -1,9 +1,8 @@
 name: softpos_sdk
 description: Android Flutter plugin bridging the MineSec SoftPOS (poslib) sale, warm-up and activation flows. The caller picks the MineSec app package (prod vs stage).
 version: 1.0.0
-# TODO(publish): point these at your real repo before `flutter pub publish`.
-repository: https://github.com/elitesoft/softpos_sdk
-issue_tracker: https://github.com/elitesoft/softpos_sdk/issues
+repository: https://github.com/elitesoftiq/softpos_sdk
+issue_tracker: https://github.com/elitesoftiq/softpos_sdk/issues
 topics:
   - payments
   - pos
