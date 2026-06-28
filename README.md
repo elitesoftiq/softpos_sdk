@@ -61,6 +61,19 @@ child of `<manifest>` (a sibling of `<application>`), one `<package>` per env:
 </manifest>
 ```
 
+## Install the MineSec app on the device
+
+This plugin only *talks to* the MineSec SoftPOS app — that app must be installed
+on the device. There's one app per env:
+
+- **prod** (`com.minesec.tabadul`) — [Google Play](https://play.google.com/store/apps/details?id=com.minesec.tabadul)
+- **stage** (`com.minesec.tabadul.stage`) — test build in this repo:
+  [`Tabadul-SoftPOS-Test.apk`](Tabadul-SoftPOS-Test.apk)
+
+Open the app once and enter the **activation code**. The code is **per device**
+— each device needs its own code (request it from Elitesoft). Until a
+device is activated, sales will fail on that device.
+
 ## Usage
 
 ```dart
