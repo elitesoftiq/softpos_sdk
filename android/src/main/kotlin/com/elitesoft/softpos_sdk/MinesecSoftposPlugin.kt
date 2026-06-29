@@ -112,7 +112,7 @@ class MinesecSoftposPlugin : FlutterPlugin, ActivityAware, MethodChannel.MethodC
             }
             "isSoftPosInstalled" -> result.success(isSoftPosInstalled())
             "startSaleTransaction" -> {
-                val amount = (call.argument<Double>("amount") ?: 0.0).toBigDecimal()
+                val amount = call.argument<String>("amount") ?: "0"
                 val posMessageId = call.argument<String>("posMessageId") ?: ""
                 val autoDismiss = call.argument<Boolean>("autoDismissResult") ?: true
                 launchSaleTransaction(amount, posMessageId, autoDismiss, result)
@@ -228,13 +228,19 @@ class MinesecSoftposPlugin : FlutterPlugin, ActivityAware, MethodChannel.MethodC
     }
 
     private fun launchSaleTransaction(
-        amount: BigDecimal,
+        amountStr: String,
         posMessageId: String,
         autoDismissResult: Boolean,
         result: MethodChannel.Result,
     ) {
         val launcher = transactionLauncher
             ?: return result.error("NOT_INITIALIZED", "SoftPOS not initialized — call init()", null)
+        // poslib assumes a 2-decimal currency: it sends minor units as
+        // amount.movePointRight(2).toLong(). IQD has 3 decimals, so the POS app reads
+        // that long as fils (/1000). Multiply by 10 to bridge the 2->3 decimal gap:
+        // 10.0 IQD -> 100 -> poslib makes 10000 fils -> POS shows 10.000.
+        val amount = amountStr.toBigDecimal().movePointRight(1)
+        android.util.Log.d("MinesecSoftpos", "startSaleTransaction amount=$amount (scale=${amount.scale()}, unscaled=${amount.unscaledValue()})")
         result.success(null)
         launcher.launch(
             PosRequest.Transaction.Sale(

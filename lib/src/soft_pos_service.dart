@@ -75,7 +75,7 @@ class SoftPosService {
     bool autoDismissResult = true,
   }) async {
     await _methodChannel.invokeMethod<void>('startSaleTransaction', {
-      'amount': amount,
+      'amount': amount.toString(),
       'posMessageId': posMessageId,
       'autoDismissResult': autoDismissResult,
     });
